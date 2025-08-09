@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sivadurgesh - Sports Video Editor</title>
+    <title>Sivadurgesh - Elite Video Editor</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,401 +14,675 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: #0a0a0a;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Animated Background */
-        body::before {
-            content: '';
+        /* Enhanced animated background */
+        .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="r" values="2;8;2" dur="4s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="3" fill="rgba(255,255,255,0.15)"><animate attributeName="r" values="3;7;3" dur="3s" repeatCount="indefinite"/></circle><circle cx="40" cy="80" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="r" values="2;6;2" dur="5s" repeatCount="indefinite"/></circle></svg>') repeat;
+            z-index: -1;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(120, 200, 255, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 120, 200, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(120, 255, 200, 0.3) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(1deg); }
+            66% { transform: translateY(20px) rotate(-1deg); }
+        }
+
+        /* Particle system */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 1;
         }
 
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            animation: particleFloat 10s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) translateX(0px) scale(0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100px) translateX(50px) scale(1);
+                opacity: 0;
+            }
+        }
+
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
             position: relative;
             z-index: 2;
         }
 
-        /* Header */
+        /* Enhanced Header */
         .header {
             text-align: center;
-            padding: 4rem 0;
+            padding: 6rem 0;
             color: white;
             position: relative;
+            perspective: 1000px;
         }
 
         .header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-            background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff, #fff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glow 3s ease-in-out infinite alternate;
+            animation: textGlow 3s ease-in-out infinite alternate;
             position: relative;
+            letter-spacing: 3px;
         }
 
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px rgba(255,255,255,0.3)); }
-            to { filter: drop-shadow(0 0 30px rgba(255,255,255,0.6)); }
+        .header h1::before {
+            content: 'SIVADURGESH';
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: rgba(255,255,255,0.1);
+            transform: translateZ(-20px) translateY(3px) translateX(3px);
+            z-index: -1;
+            font-weight: 900;
+        }
+
+        @keyframes textGlow {
+            from { 
+                filter: drop-shadow(0 0 30px rgba(255,255,255,0.5)) drop-shadow(0 0 60px rgba(102,126,234,0.3));
+            }
+            to { 
+                filter: drop-shadow(0 0 50px rgba(255,255,255,0.8)) drop-shadow(0 0 80px rgba(245,87,108,0.4));
+            }
         }
 
         .header .subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             color: #f0f8ff;
             font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+            animation: slideInUp 1s ease 0.5s both;
         }
 
         .header p {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
             opacity: 0.95;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease 1s both;
         }
 
         .contact-btn {
             display: inline-block;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             color: white;
-            padding: 1rem 2.5rem;
+            padding: 1.5rem 3rem;
             text-decoration: none;
             border-radius: 50px;
             border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.4s ease;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 1s ease 1.5s both;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .contact-btn:hover::before {
+            left: 100%;
         }
 
         .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
-            background: linear-gradient(45deg, #ff5252, #26c6da);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Portfolio Section */
         .portfolio {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            padding: 3rem;
-            margin: 3rem 0;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            padding: 4rem;
+            margin: 4rem 0;
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
         }
 
         .portfolio h2 {
             text-align: center;
-            color: #667eea;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 4rem;
+            font-size: 3rem;
+            font-weight: 700;
             position: relative;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
         }
 
         .portfolio h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 2px;
+            width: 100px;
+            height: 6px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            border-radius: 3px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { width: 100px; }
+            50% { width: 150px; }
         }
 
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 3rem;
         }
 
         .video-item {
-            background: #fff;
-            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(102,126,234,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px);
+            position: relative;
+        }
+
+        .video-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .video-item:hover::before {
+            opacity: 1;
         }
 
         .video-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
 
         .video-placeholder {
             width: 100%;
-            height: 220px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 250px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             cursor: pointer;
             position: relative;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            z-index: -1;
+            transition: all 0.5s;
+        }
+
+        .video-item:hover .video-placeholder::before {
+            transform: scale(1.1);
         }
 
         .sport-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            animation: bounce 2s infinite;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 3s infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotateZ(0deg); }
+            40% { transform: translateY(-15px) rotateZ(5deg); }
+            60% { transform: translateY(-8px) rotateZ(-2deg); }
         }
 
         .play-btn {
             position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: rgba(255,255,255,0.95);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #667eea;
-            font-size: 1.4rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.8rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
 
         .play-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.2) rotateZ(360deg);
             background: white;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .video-info {
-            padding: 2rem;
+            padding: 2.5rem;
+            color: white;
         }
 
         .video-info h3 {
-            color: #333;
-            margin-bottom: 0.8rem;
-            font-size: 1.3rem;
-            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .video-info p {
-            color: #666;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            color: rgba(255,255,255,0.85);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
         }
 
         .tags {
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .tag {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: rgba(255,255,255,0.2);
             color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
 
         .drive-link {
             display: inline-block;
             background: linear-gradient(45deg, #4285f4, #34a853);
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             text-decoration: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+            border-radius: 30px;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(66, 133, 244, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drive-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .drive-link:hover::before {
+            left: 100%;
         }
 
         .drive-link:hover {
             background: linear-gradient(45deg, #3367d6, #2e7d32);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(66, 133, 244, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(66, 133, 244, 0.5);
         }
 
         /* Drive Folder Section */
         .drive-folder {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 3rem 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 4rem 0;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drive-folder::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
         }
 
         .drive-folder h2 {
-            color: #667eea;
-            margin-bottom: 1.5rem;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .drive-folder p {
-            color: #666;
-            margin-bottom: 2.5rem;
-            font-size: 1.2rem;
-            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 3rem;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
         }
 
         .main-drive-link {
             display: inline-block;
             background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc04, #34a853);
+            background-size: 300% 300%;
             color: white;
-            padding: 1.2rem 2.5rem;
+            padding: 1.5rem 3rem;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.3);
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            box-shadow: 0 15px 35px rgba(66, 133, 244, 0.4);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-drive-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .main-drive-link:hover::before {
+            left: 100%;
         }
 
         .main-drive-link:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(66, 133, 244, 0.4);
+            transform: translateY(-8px) scale(1.08);
+            box-shadow: 0 25px 50px rgba(66, 133, 244, 0.5);
         }
 
         /* About Section */
         .about {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 3rem 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 4rem 0;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.2);
+            color: white;
         }
 
         .about h2 {
-            color: #667eea;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2.5rem;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .about p {
-            color: #666;
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            line-height: 1.7;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
         }
 
         .skills {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
             flex-wrap: wrap;
         }
 
         .skill {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: rgba(255,255,255,0.15);
             color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .skill:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-5px) rotateZ(2deg);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 15px 30px rgba(255,255,255,0.2);
         }
 
         /* Contact Section */
         .contact {
-            background: rgba(255,255,255,0.15);
-            border-radius: 20px;
-            padding: 3rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 4rem;
             text-align: center;
             color: white;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         .contact h2 {
-            margin-bottom: 1.5rem;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .contact p {
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             opacity: 0.95;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
             flex-wrap: wrap;
         }
 
         .contact-link {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
             color: white;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 35px;
             border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.4s ease;
-            font-weight: bold;
-            font-size: 1.1rem;
-            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            font-weight: 600;
+            font-size: 1.2rem;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .contact-link:hover::before {
+            left: 100%;
         }
 
         .contact-link:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255,255,255,0.3);
         }
 
         /* Responsive */
@@ -416,11 +692,12 @@
             }
 
             .header h1 {
-                font-size: 2.5rem;
+                font-size: 3.5rem;
+                letter-spacing: 1px;
             }
 
             .header .subtitle {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
             }
 
             .video-grid {
@@ -433,172 +710,268 @@
             }
 
             .portfolio, .drive-folder, .about, .contact {
-                padding: 2rem;
+                padding: 2.5rem;
+            }
+
+            .header {
+                padding: 4rem 0;
+            }
+
+            .skills {
+                gap: 1rem;
+            }
+
+            .skill {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
             }
         }
 
-        /* Floating animation for header */
-        .floating {
-            animation: floating 6s ease-in-out infinite;
+        /* Scroll animations */
+        .scroll-animation {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
         }
 
-        @keyframes floating {
-            0% { transform: translate(0, 0px); }
-            50% { transform: translate(0, -20px); }
-            100% { transform: translate(0, -0px); }
+        .scroll-animation.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
+    
     <div class="container">
         <!-- Header -->
-        <header class="header floating">
+        <header class="header">
             <h1>SIVADURGESH</h1>
-            <div class="subtitle">Professional Sports Video Editor</div>
-            <p>Creating awesome football • cricket • MMA edits for Instagram</p>
-            <p>✨ Bringing your sports moments to life with cinematic flair ✨</p>
-            <a href="#contact" class="contact-btn">Get Your Edit</a>
+            <div class="subtitle">🎬 Video Editor</div>
+            <p>Creating viral football • cricket • MMA edits that dominate Instagram</p>
+            <p>✨ Transforming raw footage into cinematic masterpieces ✨</p>
+            <a href="#contact" class="contact-btn">Get Your Epic Edit</a>
         </header>
 
         <!-- Portfolio -->
-        <section class="portfolio">
-            <h2>🎬 My Recent Edits</h2>
+        <section class="portfolio scroll-animation">
+            <h2>🚀 Featured Masterpieces</h2>
             <div class="video-grid">
                 <div class="video-item">
-                    <div class="video-placeholder" style="background: linear-gradient(45deg, #FF6B6B, #4ECDC4);">
+                    <div class="video-placeholder">
                         <div class="sport-icon">⚽</div>
                         <div class="play-btn">▶</div>
-                        Football Skills
+                        Football Magic
                     </div>
                     <div class="video-info">
-                        <h3>🔥 Football Edits</h3>
-                        <p>Epic football skills compilation with smooth transitions, beat sync, and cinematic effects that capture the beautiful game</p>
+                        <h3>🔥 Elite Football Edits</h3>
+                        <p>Mind-blowing football compilations with precision beat sync, cinematic transitions, and effects that make every goal legendary</p>
                         <div class="tags">
                             <span class="tag">Football</span>
-                            <span class="tag">Skills</span>
-                            <span class="tag">Beat Sync</span>
+                            <span class="tag">Viral</span>
+                            <span class="tag">Cinema</span>
                         </div>
-                        <a href="https://drive.google.com/drive/folders/1gRScvwhV9Eg9j9XT_Vgmncer2six7qtD" target="_blank" class="drive-link">📁 Watch Football Edits</a>
+                        <a href="https://drive.google.com/drive/folders/1gRScvwhV9Eg9j9XT_Vgmncer2six7qtD" target="_blank" class="drive-link">🎥 Experience Football Magic</a>
                     </div>
                 </div>
 
                 <div class="video-item">
-                    <div class="video-placeholder" style="background: linear-gradient(45deg, #A8E6CF, #FF8B94);">
+                    <div class="video-placeholder">
                         <div class="sport-icon">🥊</div>
                         <div class="play-btn">▶</div>
-                        UFC Highlights
+                        Combat Cinema
                     </div>
                     <div class="video-info">
-                        <h3>💥 UFC/MMA Edits</h3>
-                        <p>Intense MMA moments with powerful slow-motion effects, dramatic music, and fight-stopping highlights</p>
+                        <h3>💥 UFC/MMA Spectacles</h3>
+                        <p>Explosive fight highlights with bone-crushing slow-motion, epic soundtracks, and knockout moments that stop scrollers</p>
                         <div class="tags">
                             <span class="tag">MMA</span>
                             <span class="tag">UFC</span>
-                            <span class="tag">Action</span>
+                            <span class="tag">Epic</span>
                         </div>
-                        <a href="https://drive.google.com/drive/folders/1HhbogWVqSFMr-px1zKZzDRiuQGgmJuwz" target="_blank" class="drive-link">📁 Watch MMA Edits</a>
+                        <a href="https://drive.google.com/drive/folders/1HhbogWVqSFMr-px1zKZzDRiuQGgmJuwz" target="_blank" class="drive-link">⚡ Witness Combat Cinema</a>
                     </div>
                 </div>
 
                 <div class="video-item">
-                    <div class="video-placeholder" style="background: linear-gradient(45deg, #FFD93D, #6BCF7F);">
+                    <div class="video-placeholder">
                         <div class="sport-icon">🏏</div>
                         <div class="play-btn">▶</div>
-                        Cricket Highlights
+                        Cricket Legends
                     </div>
                     <div class="video-info">
-                        <h3>🏆 Cricket Edits</h3>
-                        <p>Spectacular cricket moments with epic music, match-winning shots, and celebration highlights</p>
+                        <h3>🏆 Cricket Championship Edits</h3>
+                        <p>Legendary cricket moments crafted with perfect timing, dramatic builds, and celebration sequences that inspire millions</p>
                         <div class="tags">
                             <span class="tag">Cricket</span>
-                            <span class="tag">Highlights</span>
-                            <span class="tag">Epic</span>
+                            <span class="tag">Legend</span>
+                            <span class="tag">Victory</span>
                         </div>
-                        <a href="https://drive.google.com/drive/folders/1F7twiGtC32sNVVcG_xrBZmvgH2D1XswG" target="_blank" class="drive-link">📁 Watch Cricket Edits</a>
+                        <a href="https://drive.google.com/drive/folders/1F7twiGtC32sNVVcG_xrBZmvgH2D1XswG" target="_blank" class="drive-link">🏆 Watch Cricket Legends</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Drive Folder Section -->
-        <section class="drive-folder">
-            <h2>🗂️ Complete Collection</h2>
-            <p>Explore my entire portfolio of sports video edits! From viral-worthy content to cinematic masterpieces - all in one place!</p>
-            <a href="https://drive.google.com/drive/folders/1Wyb5VL6AJe0BA69jLRNakdOjgAnGWCJA" target="_blank" class="main-drive-link">🎥 View All My Edits</a>
+        <section class="drive-folder scroll-animation">
+            <h2>🎯 Complete Arsenal</h2>
+            <p>Dive into my complete collection of viral-worthy content! From game-changing moments to cinematic storytelling - every edit designed to break the internet!</p>
+            <a href="https://drive.google.com/drive/folders/1Wyb5VL6AJe0BA69jLRNakdOjgAnGWCJA" target="_blank" class="main-drive-link">🎬 Unlock Full Collection</a>
         </section>
 
         <!-- About -->
-        <section class="about">
-            <h2>👨‍💻 About Sivadurgesh</h2>
-            <p>Hey there! I'm Sivadurgesh, a passionate sports video editor who transforms raw footage into viral Instagram content. I specialize in creating dynamic, engaging edits that capture the excitement and emotion of sports.</p>
-            <p>From breathtaking football skills to bone-crushing MMA highlights and cricket's greatest moments - I bring every sports story to life with professional editing techniques and creative flair!</p>
+        <section class="about scroll-animation">
+            <h2>⚡ The Creative Mind</h2>
+            <p>I'm Sivadurgesh, a visionary video editor who doesn't just edit - I craft experiences. Every frame tells a story, every transition builds emotion, and every edit is engineered for viral success.</p>
+            <p>From breathtaking football skills to bone-crushing MMA highlights and cricket's greatest moments - I transform raw footage into content that stops the scroll and starts conversations!</p>
             <div class="skills">
-                <span class="skill">⚡ Fast Editing</span>
-                <span class="skill">📱 Instagram Reels</span>
-                <span class="skill">🎵 Beat Sync</span>
+                <span class="skill">📱 Viral Content</span>
+                <span class="skill">🎵 Perfect Sync</span>
                 <span class="skill">🎬 Cinematic</span>
-                <span class="skill">🔥 Viral Content</span>
+                <span class="skill">🔥 Trending</span>
             </div>
         </section>
 
         <!-- Contact -->
-        <section id="contact" class="contact">
-            <h2>🚀 Let's Create Magic Together!</h2>
-            <p>Ready to turn your sports footage into viral content? Let's collaborate and create something amazing!</p>
+        <section class="contact scroll-animation" id="contact">
+            <h2>🎯 Let's Create Magic</h2>
+            <p>Ready to dominate social media with content that breaks the internet? Let's collaborate and create your next viral masterpiece!</p>
             <div class="contact-links">
-                <a href="https://www.instagram.com/_knockout.fx?igsh=MWF0ZGc2YW45ZXB3OA==" class="contact-link">📱 Instagram</a>
-                <a href="https://wa.me/9894756124" class="contact-link">💬 WhatsApp</a>
-                <a href="mailto:sivadurgeshcr7@gmail.com" class="contact-link">📧 Email</a>
+                <a href="mailto:sivadurgeshcr7@gmail.com" class="contact-link">📧 Email Me</a>
+                <a href="https://www.instagram.com/_.sivadurgesh?igsh=bzMwYXh0MWppNWp3" target="_blank" class="contact-link">📱 Main Instagram</a>
+                <a href="https://www.instagram.com/_knockout.fx?igsh=MWF0ZGc2YW45ZXB3OA==" target="_blank" class="contact-link">🎬 Edits Instagram</a>
+                <a href="https://wa.me/9894756124" target="_blank" class="contact-link">💬 WhatsApp</a>
             </div>
         </section>
     </div>
 
     <script>
-        // Enhanced smooth scroll
-        document.querySelector('a[href="#contact"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('contact').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        });
+        // Particle system
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
 
-        // Enhanced click handlers for video items
-        document.querySelectorAll('.video-placeholder').forEach(item => {
-            item.addEventListener('click', function() {
-                const randomMessages = [
-                    '🎬 Click the Drive link below to watch this epic edit!',
-                    '⚡ Ready to see some amazing sports action? Check the Drive link!',
-                    '🔥 This edit is fire! Click the Drive button to watch!',
-                    '🎥 Your next viral content awaits! Hit that Drive link!'
-                ];
-                const randomMessage = randomMessages[Math.floor(Math.random() * randomMessages.length)];
-                alert(randomMessage);
-            });
-        });
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
 
-        // Add entrance animations on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Scroll animations
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.scroll-animation');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animate');
                 }
             });
-        }, observerOptions);
+        }
 
-        // Observe video items for animations
-        document.querySelectorAll('.video-item').forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(50px)';
-            item.style.transition = `all 0.6s ease ${index * 0.2}s`;
-            observer.observe(item);
+        // Smooth scrolling for anchor links
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Play button interactions
+        function initPlayButtons() {
+            document.querySelectorAll('.play-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(1.3) rotate(180deg)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1) rotate(0deg)';
+                    }, 300);
+                });
+            });
+        }
+
+        // Enhanced hover effects for video items
+        function initVideoItemHovers() {
+            document.querySelectorAll('.video-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-20px) scale(1.02) rotateY(5deg)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1) rotateY(0deg)';
+                });
+            });
+        }
+
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initSmoothScrolling();
+            initPlayButtons();
+            initVideoItemHovers();
+            handleScrollAnimations();
         });
+
+        // Handle scroll animations on scroll
+        window.addEventListener('scroll', handleScrollAnimations);
+
+        // Add some interactive sparkle effects
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.1) {
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.width = '4px';
+                sparkle.style.height = '4px';
+                sparkle.style.background = 'rgba(255,255,255,0.8)';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '1000';
+                sparkle.style.animation = 'sparkle 1s ease-out forwards';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        });
+
+        // Add sparkle animation
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+            @keyframes sparkle {
+                0% {
+                    transform: scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1) rotate(180deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(0) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(sparkleStyle);
     </script>
 </body>
 </html>
